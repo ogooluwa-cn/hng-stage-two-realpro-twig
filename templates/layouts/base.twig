@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ title | default('RealPro App') }}{% endblock %}</title>
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Page-specific styles -->
+    {% block styles %}{% endblock %}
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    {% include "components/navbar.twig" %}
+
+    <!-- Main Content -->
+    <main class="container">
+      {% block content %}
+      {% endblock %}
+    </main>
+
+    <!-- Footer (optional) -->
+    {% if block('footer') is defined %}
+      {% block footer %}{% endblock %}
+    {% else %}
+      {% include "components/footer.twig" ignore missing %}
+    {% endif %}
+
+    <!-- Global Scripts -->
+    <script src="/js/navbar.js"></script>
+
+    <!-- Page-specific scripts -->
+    {% block scripts %}
+      <!-- Example: <script src="/js/dashboard.js"></script> -->
+    {% endblock %}
+  </body>
+</html>

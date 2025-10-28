@@ -1,0 +1,139 @@
+{% extends "layouts/base.twig" %}
+
+{% block title %}Dashboard - RealPro{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/form.css">
+{% endblock %}
+
+{% block content %}
+<div class="page active" id="dashboardPage">
+    <div class="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h2 class="section-title">Dashboard Overview</h2>
+                <div class="user-welcome">
+                    Welcome back, <strong>{{ user.name ?? 'User' }}</strong>!
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">
+                        {% if isLoading %}
+                            <div class="loading-dots">...</div>
+                        {% else %}
+                            <span>{{ stats.totalTickets }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="stat-label">Total Tickets</div>
+                    {% if not isLoading %}
+                        <div class="stat-subtext">All support requests</div>
+                    {% endif %}
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">
+                        {% if isLoading %}
+                            <div class="loading-dots">...</div>
+                        {% else %}
+                            <span>{{ stats.openTickets }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="stat-label">Open Tickets</div>
+                    {% if not isLoading %}
+                        <div class="stat-subtext">Awaiting response</div>
+                    {% endif %}
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">
+                        {% if isLoading %}
+                            <div class="loading-dots">...</div>
+                        {% else %}
+                            <span>{{ stats.inProgressTickets }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="stat-label">In Progress</div>
+                    {% if not isLoading %}
+                        <div class="stat-subtext">Being worked on</div>
+                    {% endif %}
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">
+                        {% if isLoading %}
+                            <div class="loading-dots">...</div>
+                        {% else %}
+                            <span>{{ stats.closedTickets }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="stat-label">Resolved Tickets</div>
+                    {% if not isLoading %}
+                        <div class="stat-subtext">Successfully closed</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Recent Tickets Section (commented out as in original) -->
+            {#
+            {% if recentTickets|length > 0 %}
+            <div class="recent-tickets">
+                <h3 class="section-subtitle">Recent Tickets</h3>
+                <div class="recent-tickets-grid">
+                    {% for ticket in recentTickets %}
+                    <div class="recent-ticket-card">
+                        <div class="recent-ticket-header">
+                            <h4 class="recent-ticket-title">{{ ticket.title }}</h4>
+                            <span class="status-badge-sm {{ getStatusBadgeClass(ticket.status) }}">
+                                {{ formatStatus(ticket.status) }}
+                            </span>
+                        </div>
+                        <div class="recent-ticket-meta">
+                            <span>Priority: </span>
+                            <span class="priority-badge-sm {{ getPriorityBadgeClass(ticket.priority) }}">
+                                {{ formatPriority(ticket.priority) }}
+                            </span>
+                            <span>Created: {{ ticket.createdAt }}</span>
+                        </div>
+                        <p class="recent-ticket-description">
+                            {{ ticket.description|length > 100 
+                                ? ticket.description|slice(0, 100) ~ '...' 
+                                : ticket.description
+                            }}
+                        </p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            #}
+
+            <div class="dashboard-actions">
+                <div class="action-card" onclick="window.location.href='/tickets'">
+                    <div class="action-icon">🎫</div>
+                    <h3>Manage Tickets</h3>
+                    <p>View and manage all support tickets in one place</p>
+                </div>
+                <div class="action-card" onclick="window.location.href='/create-ticket'">
+                    <div class="action-icon">➕</div>
+                    <h3>Create Ticket</h3>
+                    <p>Create a new support ticket for your team</p>
+                </div>
+                <div class="action-card" onclick="showComingSoon('Analytics')">
+                    <div class="action-icon">📊</div>
+                    <h3>Analytics</h3>
+                    <p>View detailed reports and performance insights</p>
+                </div>
+                <div class="action-card" onclick="handleLogout()">
+                    <div class="action-icon">🚪</div>
+                    <h3>Logout</h3>
+                    <p>Sign out of your account securely</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/dashboard.js"></script>
+{% endblock %}

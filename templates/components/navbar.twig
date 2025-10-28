@@ -1,0 +1,49 @@
+<header class="header">
+  <nav class="nav">
+    <div class="logo" onclick="navigateTo('/')">RealPro</div>
+
+    <!-- Mobile Menu Button -->
+    <div class="mobile-menu-btn" id="mobileMenuBtn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="nav-links" id="navLinks">
+      <!-- Dark/Light Mode Switch -->
+      <div class="switch-container">
+        <label class="switch">
+          <input type="checkbox" id="themeToggle">
+          <span class="slider">
+            <span class="slider-icon sun">☀️</span>
+            <span class="slider-icon moon">🌙</span>
+          </span>
+        </label>
+        <span class="switch-label" id="themeLabel">Light</span>
+      </div>
+
+      <a href="/dashboard">Dashboard</a>
+      <a href="/tickets">Ticket</a>
+
+      <!-- Logout Button -->
+      <div class="action-card" id="logoutBtn">
+        <h3 id="logoutText">Logout</h3>
+      </div>
+    </div>
+
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+  </nav>
+
+  <!-- Logout Confirmation -->
+  <div class="alert-overlay" id="logoutConfirm">
+    <div class="alert-box">
+      <h3>Confirm Logout</h3>
+      <p>Are you sure you want to logout?</p>
+      <div class="alert-buttons">
+        <button class="btn-cancel" id="cancelLogout">Cancel</button>
+        <button class="btn-confirm" id="confirmLogout">Yes, Logout</button>
+      </div>
+    </div>
+  </div>
+</header>

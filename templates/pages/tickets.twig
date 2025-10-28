@@ -1,0 +1,141 @@
+{% extends "layouts/base.twig" %}
+
+{% block title %}Ticket Management - RealPro{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/ticket.css">
+    <link rel="stylesheet" href="/css/land.css">
+{% endblock %}
+
+{% block content %}
+<div class="page active" id="ticketsPage">
+    <div class="ticket-management">
+        <div class="container">
+            <!-- Loading State -->
+            {% if isLoading %}
+            <div class="loading-state">
+                <div class="loading-spinner"></div>
+                <p>Loading tickets...</p>
+            </div>
+
+            <!-- Main Content -->
+            {% else %}
+            <div>
+                <div class="management-header">
+                    <h2 class="section-title" style="margin: 0">Ticket Management</h2>
+                    <a href="/create-ticket" class="btn btn-primary">+ Create Ticket</a>
+                </div>
+
+                <div class="filters">
+                    <div class="search-box">
+                        <input
+                            type="text"
+                            class="form-input"
+                            id="searchInput"
+                            placeholder="Search tickets..."
+                            value="{{ searchTerm }}"
+                        />
+                    </div>
+                    <div class="filter-group">
+                        <select class="form-select" id="statusFilter">
+                            <option value="">All Status</option>
+                            <option value="open" {{ statusFilter == 'open' ? 'selected' : '' }}>Open</option>
+                            <option value="in_progress" {{ statusFilter == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                            <option value="closed" {{ statusFilter == 'closed' ? 'selected' : '' }}>Closed</option>
+                        </select>
+                        <select class="form-select" id="priorityFilter">
+                            <option value="">All Priority</option>
+                            <option value="low" {{ priorityFilter == 'low' ? 'selected' : '' }}>Low</option>
+                            <option value="medium" {{ priorityFilter == 'medium' ? 'selected' : '' }}>Medium</option>
+                            <option value="high" {{ priorityFilter == 'high' ? 'selected' : '' }}>High</option>
+                            <option value="urgent" {{ priorityFilter == 'urgent' ? 'selected' : '' }}>Urgent</option>
+                        </select>
+                        <button 
+                            id="clearFilters"
+                            class="btn btn-outline btn-sm" 
+                            style="white-space: nowrap; display: none;"
+                        >
+                            Clear Filters
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tickets-summary">
+                    <div class="summary-item">
+                        <span class="summary-label">Total Tickets:</span>
+                        <span class="summary-value">{{ tickets|length }}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Open:</span>
+                        <span class="summary-value">
+                            {{ tickets|filter(t => t.status == 'open')|length }}
+                        </span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">In Progress:</span>
+                        <span class="summary-value">
+                            {{ tickets|filter(t => t.status == 'in_progress')|length }}
+                        </span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Closed:</span>
+                        <span class="summary-value">
+                            {{ tickets|filter(t => t.status == 'closed')|length }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="tickets-grid" id="ticketsList">
+                    {% for ticket in tickets %}
+                    <div class="ticket-card" data-ticket-id="{{ ticket.id }}">
+                        <div class="ticket-header">
+                            <div class="ticket-title">{{ ticket.title }}</div>
+                            <span class="status-badge {{ getStatusBadgeClass(ticket.status) }}">
+                                {{ formatStatus(ticket.status) }}
+                            </span>
+                        </div>
+                        <div class="ticket-meta">
+                            <span>Created: {{ ticket.createdAt }}</span>
+                            <span class="priority-badge {{ getPriorityBadgeClass(ticket.priority) }}">
+                                {{ formatPriority(ticket.priority) }} PRIORITY
+                            </span>
+                            {% if ticket.category %}
+                            <span class="ticket-category">{{ ticket.category }}</span>
+                            {% endif %}
+                        </div>
+                        <p class="ticket-description">{{ ticket.description }}</p>
+                        <div class="ticket-actions">
+                            <button class="btn btn-primary btn-sm" onclick="editTicket('{{ ticket.id }}')">
+                                Edit
+                            </button>
+                            <button class="btn btn-outline btn-sm" onclick="viewTicket('{{ ticket.id }}')">
+                                View
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteTicket('{{ ticket.id }}')">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div id="emptyState" class="empty-state" style="display: none;">
+                    <div class="empty-state-icon">🎫</div>
+                    <h3>No tickets found</h3>
+                    <p id="emptyStateMessage">
+                        Create your first ticket to get started!
+                    </p>
+                    <a href="/create-ticket" class="btn btn-primary" style="margin-top: 1rem">
+                        Create Your First Ticket
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/tickets.js"></script>
+{% endblock %}

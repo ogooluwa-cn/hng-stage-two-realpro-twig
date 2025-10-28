@@ -1,0 +1,128 @@
+{% extends "layouts/base.twig" %}
+
+{% block title %}Create New Ticket - RealPro{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/ticket.css">
+    <link rel="stylesheet" href="/css/form.css">
+{% endblock %}
+
+{% block content %}
+<div class="page active" id="createTicketPage">
+    <div class="create-ticket">
+        <div class="container">
+            <div class="create-ticket-header">
+                <a href="/tickets" class="btn btn-outline">← Back to Tickets</a>
+                <h2 class="section-title">Create New Ticket</h2>
+                <p class="create-ticket-subtitle">
+                    Fill in the details below to create a new support ticket
+                </p>
+            </div>
+
+            <div class="create-ticket-card">
+                <form id="createTicketForm" method="POST" action="/create-ticket" class="create-ticket-form">
+                    <div class="form-group">
+                        <label class="form-label" for="ticketTitle">
+                            Ticket Title *
+                        </label>
+                        <input
+                            type="text"
+                            class="form-input {{ errors.title ? 'error' : '' }}"
+                            id="ticketTitle"
+                            name="title"
+                            value="{{ old.title }}"
+                            placeholder="Enter a clear and descriptive title"
+                        />
+                        {% if errors.title %}
+                            <div class="error-message">{{ errors.title }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="ticketDescription">
+                            Description *
+                        </label>
+                        <textarea
+                            class="form-input form-textarea {{ errors.description ? 'error' : '' }}"
+                            id="ticketDescription"
+                            name="description"
+                            placeholder="Provide detailed information about the issue or request..."
+                            rows="6"
+                        >{{ old.description }}</textarea>
+                        {% if errors.description %}
+                            <div class="error-message">{{ errors.description }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="ticketPriority">
+                                Priority
+                            </label>
+                            <select
+                                class="form-select"
+                                id="ticketPriority"
+                                name="priority"
+                            >
+                                <option value="low" {{ old.priority == 'low' ? 'selected' : '' }}>Low</option>
+                                <option value="medium" {{ old.priority == 'medium' or not old.priority ? 'selected' : '' }}>Medium</option>
+                                <option value="high" {{ old.priority == 'high' ? 'selected' : '' }}>High</option>
+                                <option value="urgent" {{ old.priority == 'urgent' ? 'selected' : '' }}>Urgent</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="ticketCategory">
+                                Category
+                            </label>
+                            <select
+                                class="form-select"
+                                id="ticketCategory"
+                                name="category"
+                            >
+                                <option value="technical" {{ old.category == 'technical' or not old.category ? 'selected' : '' }}>Technical Issue</option>
+                                <option value="feature" {{ old.category == 'feature' ? 'selected' : '' }}>Feature Request</option>
+                                <option value="bug" {{ old.category == 'bug' ? 'selected' : '' }}>Bug Report</option>
+                                <option value="support" {{ old.category == 'support' ? 'selected' : '' }}>General Support</option>
+                                <option value="billing" {{ old.category == 'billing' ? 'selected' : '' }}>Billing Issue</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <a href="/tickets" class="btn btn-outline">Cancel</a>
+                        <button 
+                            type="submit" 
+                            class="btn btn-primary {{ isSubmitting ? 'loading' : '' }}"
+                            id="submitBtn"
+                            {% if isSubmitting %}disabled{% endif %}
+                        >
+                            {% if isSubmitting %}
+                                <div class="spinner"></div>
+                                Creating Ticket...
+                            {% else %}
+                                Create Ticket
+                            {% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="create-ticket-info">
+                <h4>💡 Tips for creating effective tickets:</h4>
+                <ul>
+                    <li>Be specific and descriptive in your title</li>
+                    <li>Include steps to reproduce the issue</li>
+                    <li>Add relevant screenshots or error messages</li>
+                    <li>Specify the expected vs actual behavior</li>
+                    <li>Choose the appropriate priority level</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/create-ticket.js"></script>
+{% endblock %}

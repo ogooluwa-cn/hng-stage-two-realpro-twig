@@ -1,0 +1,62 @@
+{% extends "layouts/base.twig" %}
+
+{% block title %}RealPro - Streamline Your Ticket Management{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/land.css">
+{% endblock %}
+
+{% block content %}
+<div class="page active" id="landingPage">
+    <section class="hero">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="circle circle-3"></div>
+        <div class="circle circle-4"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>Streamline Your Ticket Management</h1>
+                <p>Efficiently handle support tickets with RealPro's powerful and intuitive platform designed for modern teams.</p>
+                <div class="hero-buttons">
+                    <a href="/login" class="btn btn-primary">Get Started</a>
+                    <a href="/signup" class="btn btn-secondary">Sign Up Free</a>
+                </div>
+            </div>
+        </div>
+        <div class="wave"></div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose RealPro?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎫</div>
+                    <h3>Smart Ticket Management</h3>
+                    <p>Create, track, and resolve tickets with our intuitive workflow designed for efficiency.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Real-time Analytics</h3>
+                    <p>Monitor performance with live dashboards and detailed reporting.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Enterprise Security</h3>
+                    <p>Bank-level security with role-based access control and audit logs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{ "now"|date("Y") }} RealPro UI Design. All rights reserved.</p>
+        </div>
+    </footer>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/landing.js"></script>
+{% endblock %}

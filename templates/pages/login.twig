@@ -1,0 +1,118 @@
+{% extends "layouts/base.twig" %}
+
+{% block title %}Sign In - RealPro{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/form.css">
+    <link rel="stylesheet" href="/css/land.css">
+{% endblock %}
+
+{% block content %}
+<div class="page active" id="loginPage">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo" onclick="window.location.href='/'">
+                    RealPro
+                </div>
+                <h2 class="auth-title">Welcome Back</h2>
+                <p class="auth-subtitle">Sign in to your account to continue</p>
+            </div>
+
+            <form id="loginForm" method="POST" action="/login" class="auth-form">
+                <div class="form-group">
+                    <label class="form-label" for="loginEmail">
+                        Email Address
+                    </label>
+                    <input
+                        type="email"
+                        class="form-input {{ errors.email ? 'error' : '' }}"
+                        id="loginEmail"
+                        name="email"
+                        value="{{ old.email }}"
+                        required
+                        placeholder="Enter your email"
+                    />
+                    {% if errors.email %}
+                        <div class="error-message" id="loginEmailError">
+                            {{ errors.email }}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <div class="form-label-container">
+                        <label class="form-label" for="loginPassword">
+                            Password
+                        </label>
+                        <a class="forgot-password" href="#" onclick="showForgotPassword()">
+                            Forgot password?
+                        </a>
+                    </div>
+                    <input
+                        type="password"
+                        class="form-input {{ errors.password ? 'error' : '' }}"
+                        id="loginPassword"
+                        name="password"
+                        required
+                        placeholder="Enter your password"
+                    />
+                    {% if errors.password %}
+                        <div class="error-message" id="loginPasswordError">
+                            {{ errors.password }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="remember" />
+                        <span class="checkmark"></span>
+                        Remember me
+                    </label>
+                </div>
+                
+                <button 
+                    type="submit" 
+                    class="btn btn-primary login-btn {{ isLoading ? 'loading' : '' }}"
+                    id="submitBtn"
+                    {% if isLoading %}disabled{% endif %}
+                >
+                    {% if isLoading %}
+                        <div class="spinner"></div>
+                        Signing In...
+                    {% else %}
+                        Sign In
+                    {% endif %}
+                </button>
+            </form>
+
+            <div class="auth-divider">
+                <span>Or continue with</span>
+            </div>
+
+            <div class="social-login">
+                <button type="button" class="btn btn-social btn-google" onclick="socialLogin('google')">
+                    <span class="social-icon">🔍</span>
+                    Google
+                </button>
+                <button type="button" class="btn btn-social btn-github" onclick="socialLogin('github')">
+                    <span class="social-icon">💻</span>
+                    GitHub
+                </button>
+            </div>
+            
+            <div class="auth-switch">
+                Don't have an account?{" "}
+                <a href="/signup" class="auth-link">
+                    Sign up here
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/login.js"></script>
+{% endblock %}
