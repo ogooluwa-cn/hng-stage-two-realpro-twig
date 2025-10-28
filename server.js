@@ -241,7 +241,12 @@ app.get("/tickets", (req, res) => {
     isLoading: false,
     searchTerm: search || "",
     statusFilter: status || "",
-    priorityFilter: priority || ""
+    priorityFilter: priority || "",
+    // Provide simple summary counts so templates don't need complex filters
+    totalTickets: filteredTickets.length,
+    openTickets: filteredTickets.filter(t => t.status === 'open').length,
+    inProgressTickets: filteredTickets.filter(t => t.status === 'in_progress').length,
+    closedTickets: filteredTickets.filter(t => t.status === 'closed').length
   });
 });
 
